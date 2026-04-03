@@ -4,7 +4,6 @@ public class Barbeiro extends Thread {
     private Cliente c;
     public long t = 0;
 
-
     public Barbeiro(String nome, Cadeira cadeira) {
         this.nome = nome;
         this.cadeira = cadeira;

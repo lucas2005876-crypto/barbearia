@@ -3,11 +3,13 @@ public class Cliente extends Thread{
     private String name;
     private int id;
     private int tamanhoDeCabelo;
+    private Barbearia b;
 
-    public Cliente (int id, String name, int tamanhoDeCabelo) {
+    public Cliente (int id, String name, int tamanhoDeCabelo, Barbearia b) {
         this.id = id;
         this.name = name;
         this.tamanhoDeCabelo = tamanhoDeCabelo;
+        this.b = b;
     }
 
     public String getNameCliente() {

@@ -10,9 +10,6 @@ public class Barbearia {
 
     public Barbearia(Barbeiro[] barbeiros) {
         this.barbeiros = barbeiros;
-        this.listEmPe = null;
-        this.listCadeiras = null;
-        this.listSofa = null;
     }
 
     public void SentarSofa(){
@@ -30,6 +27,10 @@ public class Barbearia {
         if (listEmPe.size() < 13){
             listEmPe.add(cliente);
         }
+    }
+
+    public boolean isOpen() {
+        return isOpen;
     }
 
     public void closing() {
