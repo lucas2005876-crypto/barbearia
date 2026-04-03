@@ -1,5 +1,10 @@
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String[] args) {
+        int idCLiente = 1;
+
+        ArrayList<Cliente> listaClientes = new ArrayList<>();
 
         Barbeiro barbeiro1 = new Barbeiro("Joao");
         Barbeiro barbeiro2 = new Barbeiro("Cleber");
@@ -26,6 +31,19 @@ public class Main {
                 "Wesley", "Xavier", "Yuri", "Zilda", "Arthur"
         };
 
+
+        while(idCLiente <= 50){
+            int tamanhoCabelo = (int) (Math.random() * 10) + 1;
+            int numeroNome = (int) (Math.random() * 50) - 1 ;
+            Cliente cliente = new Cliente( idCLiente, nomes[numeroNome], tamanhoCabelo);
+            listaClientes.add(cliente);
+
+            idCLiente++;
+        }
+
+        listaClientes.forEach(cliente -> {
+            cliente.start();
+        });
 
     }
 }
