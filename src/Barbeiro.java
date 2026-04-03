@@ -2,6 +2,7 @@ public class Barbeiro extends Thread {
     private String nome;
     private Cadeira cadeira;
     private Cliente c;
+    public long t = 0;
 
 
     public Barbeiro(String nome, Cadeira cadeira) {
@@ -19,10 +20,13 @@ public class Barbeiro extends Thread {
 
     public void cortarCabelo() {
         c = cadeira.getC();
-
-        if(c.ge)
-
+        
+        if(c.getTamanhoDeCabelo() > 1 && c.getTamanhoDeCabelo() < 5) {
+            t = 2000;
+        } else if (c.getTamanhoDeCabelo() < 8 ){
+            t = 4000;
+        } else {
+            t = 6000;
+        }
     }
-
-
 }
