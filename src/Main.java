@@ -13,7 +13,18 @@ public class Main {
 
         Barbearia barbearia = new Barbearia(barbeiros);
 
-
+        String[] nomes = {
+                "Ana", "Bruno", "Carlos", "Diana", "Eduardo",
+                "Fernanda", "Gabriel", "Helena", "Igor", "Julia",
+                "Kleber", "Larissa", "Marcos", "Natália", "Otávio",
+                "Paula", "Rafael", "Sofia", "Thiago", "Vanessa",
+                "William", "Yasmin", "Zé", "Aline", "Brenda",
+                "Caio", "Daniel", "Elisa", "Felipe", "Giovana",
+                "Hugo", "Isabela", "João", "Karen", "Lucas",
+                "Marta", "Nicolas", "Olivia", "Pedro", "Quezia",
+                "Rita", "Samuel", "Tatiane", "Ulisses", "Vitor",
+                "Wesley", "Xavier", "Yuri", "Zilda", "Arthur"
+        };
 
 
     }
