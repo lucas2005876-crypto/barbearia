@@ -27,5 +27,6 @@ public class Cliente extends Thread{
         return "Cliente: " + id + " - " + name;
     }
 
+
     
 }
