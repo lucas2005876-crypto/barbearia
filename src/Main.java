@@ -13,8 +13,9 @@ public class Main {
         Barbeiro barbeiro1 = new Barbeiro("Joao", barbearia);
         Barbeiro barbeiro2 = new Barbeiro("Vinícius", barbearia);
         Barbeiro barbeiro3 = new Barbeiro("Lucas", barbearia);
-
+      
         Barbeiro barbeiros[] = new Barbeiro[3];
+
 
         barbeiros[0] = barbeiro1;
         barbeiros[1] = barbeiro2;
