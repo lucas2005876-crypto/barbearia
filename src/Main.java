@@ -6,11 +6,16 @@ public class Main {
 
         ArrayList<Cliente> listaClientes = new ArrayList<>();
 
-        Barbeiro barbeiro1 = new Barbeiro("Joao");
-        Barbeiro barbeiro2 = new Barbeiro("Cleber");
-        Barbeiro barbeiro3 = new Barbeiro("Lucas");
+        Cadeira cadeira1 = new Cadeira(1);
+        Cadeira cadeira2= new Cadeira(2);
+        Cadeira cadeira3 = new Cadeira(3);
 
-        Barbeiro barbeiros[] = new Barbeiro[3];
+        Barbeiro[] barbeiros = new Barbeiro[3];
+
+        Barbeiro barbeiro1 = new Barbeiro("Joao", cadeira1);
+        Barbeiro barbeiro2 = new Barbeiro("Cleber", cadeira2);
+        Barbeiro barbeiro3 = new Barbeiro("Lucas", cadeira3);
+
 
         barbeiros[0] = barbeiro1;
         barbeiros[1] = barbeiro2;
@@ -35,7 +40,7 @@ public class Main {
         while(idCLiente <= 50){
             int tamanhoCabelo = (int) (Math.random() * 10) + 1;
             int numeroNome = (int) (Math.random() * 50) - 1 ;
-            Cliente cliente = new Cliente( idCLiente, nomes[numeroNome], tamanhoCabelo);
+            Cliente cliente = new Cliente( idCLiente, nomes[numeroNome], tamanhoCabelo, barbearia);
             listaClientes.add(cliente);
 
             idCLiente++;
