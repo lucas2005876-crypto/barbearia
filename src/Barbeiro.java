@@ -1,15 +1,14 @@
 public class Barbeiro extends Thread {
     private String nome;
-    private Cadeira cadeira;
-    private Cliente c;
-    public long t = 0;
+    private Cliente clienteAtual;
+    private Barbearia barbearia;
 
-    public Barbeiro(String nome, Cadeira cadeira) {
+    public Barbeiro(String nome, Barbearia barbearia) {
         this.nome = nome;
-        this.cadeira = cadeira;
+        this.barbearia = barbearia;
     }
 
-    public String getNome() {
+    public String getNameBarbeiro() {
         return nome;
     }
 
@@ -17,15 +16,36 @@ public class Barbeiro extends Thread {
         this.nome = nome;
     }
 
-    public void cortarCabelo() {
-        c = cadeira.getC();
-        
-        if(c.getTamanhoDeCabelo() > 1 && c.getTamanhoDeCabelo() < 5) {
-            t = 2000;
-        } else if (c.getTamanhoDeCabelo() < 8 ){
-            t = 4000;
+    public void cortarCabelo(Cliente c) throws InterruptedException{
+        long tempoDeCorte = 0;
+        int tamanho = c.getTamanhoDeCabelo();
+
+        if(tamanho > 1 && tamanho < 5) {
+            tempoDeCorte = 2000;
+        } else if (tamanho < 8 ){
+            tempoDeCorte = 4000;
         } else {
-            t = 6000;
+            tempoDeCorte = 6000;
+        }
+
+        System.out.println(nome + " está cortando o cabelo de " + c.getNameCliente());
+        Thread.sleep(tempoDeCorte);
+        System.out.println(nome + " terminou o corte de  " + c.getNameCliente());
+    }
+
+    @Override
+    public void run() {
+        while(Barbearia.isOpen) {
+            try {
+                this.clienteAtual = barbearia.chamarProximoDoSofa();
+                cortarCabelo(clienteAtual);
+                barbearia.realizarPagamento(clienteAtual, this);
+
+                Thread.sleep(200); //descansa
+            }
+            catch (InterruptedException i) {
+                System.out.println("Interrupted thread " + i.getMessage());
+            }
         }
     }
 }

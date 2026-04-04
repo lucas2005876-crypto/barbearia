@@ -3,13 +3,13 @@ public class Cliente extends Thread{
     private String name;
     private int id;
     private int tamanhoDeCabelo;
-    private Barbearia b;
+    private Barbearia barbearia;
 
-    public Cliente (int id, String name, int tamanhoDeCabelo, Barbearia b) {
+    public Cliente (int id, String name, int tamanhoDeCabelo, Barbearia barbearia) {
         this.id = id;
         this.name = name;
         this.tamanhoDeCabelo = tamanhoDeCabelo;
-        this.b = b;
+        this.barbearia = barbearia;
     }
 
     public String getNameCliente() {
@@ -27,6 +27,17 @@ public class Cliente extends Thread{
     @Override
     public String toString() {
         return "Cliente: " + id + " - " + name;
+    }
+
+    public void run() {
+        while(Barbearia.isOpen) {
+            try {
+                barbearia.entrar(this);
+
+            } catch (InterruptedException i) {
+                System.out.println("Interrupted thread " + i.getMessage());
+            }
+        }
     }
 
 
