@@ -35,7 +35,7 @@ public class Barbeiro extends Thread {
 
     @Override
     public void run() {
-        while(Barbearia.isOpen) {
+        while(Barbearia.isOpen || barbearia.temClienteNoSofa()) {
             try {
                 this.clienteAtual = barbearia.chamarProximoDoSofa();
                 cortarCabelo(clienteAtual);

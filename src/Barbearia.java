@@ -15,14 +15,28 @@ public class Barbearia {
 
     public static int clientesAtendidos = 0;
 
+    public boolean temClienteNoSofa() {
+        return !filaSofa.isEmpty();
+    }
+
     // O cliente chama este método ao chegar
     public void entrar(Cliente cliente) throws InterruptedException {
-            semaforoTotal.acquire();
-            filaEmPe.put(cliente); // put() bloqueia se estiver cheio, mas aqui o semáforo garante vaga
-            System.out.println(cliente.getNameCliente() + " entrou na barbearia");
-            // Tenta ir para o sofá
-            promoverParaSofa(cliente);
+        if (!isOpen) return;
+
+        semaforoTotal.acquire();
+
+        if (!isOpen) {
+            semaforoTotal.release();
+            return;
+        }
+
+        filaEmPe.put(cliente);
+        System.out.println(cliente.getNameCliente() + " entrou na barbearia");
+
+        promoverParaSofa(cliente);
     }
+
+
 
     private void promoverParaSofa(Cliente cliente) throws InterruptedException {
         semaforoSofa.acquire();

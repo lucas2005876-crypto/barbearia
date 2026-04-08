@@ -30,15 +30,15 @@ public class Cliente extends Thread{
     }
 
     public void run() {
-        while(Barbearia.isOpen) {
             try {
-                barbearia.entrar(this);
-
+                if (Barbearia.isOpen) {
+                    barbearia.entrar(this);
+                }
             } catch (InterruptedException i) {
                 System.out.println("Interrupted thread " + i.getMessage());
             }
         }
-    }
+
 
 
     
