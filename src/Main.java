@@ -22,22 +22,23 @@ public class Main {
         barbeiros[2] = barbeiro3;
 
         String[] nomes = {
-                "Ana", "Bruno", "Carlos", "Diana", "Eduardo",
-                "Fernanda", "Gabriel", "Helena", "Igor", "Julia",
-                "Kleber", "Larissa", "Marcos", "Natália", "Otávio",
-                "Paula", "Rafael", "Sofia", "Thiago", "Vanessa",
-                "William", "Yasmin", "Zé", "Aline", "Brenda",
-                "Caio", "Daniel", "Elisa", "Felipe", "Giovana",
-                "Hugo", "Isabela", "João", "Karen", "Lucas",
-                "Marta", "Nicolas", "Olivia", "Pedro", "Quezia",
-                "Rita", "Samuel", "Tatiane", "Ulisses", "Vitor",
-                "Wesley", "Xavier", "Yuri", "Zilda", "Arthur"
+                "Bruno", "Carlos", "Daniel", "Eduardo",
+                "Felipe", "Gabriel", "Henrique", "Igor", "João",
+                "Kleber", "Lucas", "Marcos", "Nicolas", "Otávio",
+                "Pedro", "Rafael", "Samuel", "Thiago", "Vitor",
+                "William", "Yuri", "Zé", "Arthur", "Bruno",
+                "Caio", "Daniel", "Enzo", "Felipe", "Gustavo",
+                "Hugo", "Ian", "João", "Kai", "Leonardo",
+                "Matheus", "Nathan", "Oliver", "Paulo", "Quentin",
+                "Ricardo", "Stefan", "Thomas", "Ulisses", "Victor",
+                "Wesley", "Xavier", "Yago", "Zeca", "André"
         };
 
+        int numeroNome = 0;
 
         while(idCLiente < 50){
             int tamanhoCabelo = (int) (Math.random() * 10);
-            int numeroNome = (int) (Math.random() * 50);
+            numeroNome++;
             Cliente cliente = new Cliente( idCLiente, nomes[numeroNome], tamanhoCabelo, barbearia);
             listaClientes.add(cliente);
 
