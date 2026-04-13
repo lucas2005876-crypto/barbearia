@@ -3,6 +3,8 @@ public class Barbeiro extends Thread {
     private Cliente clienteAtual;
     private Barbearia barbearia;
 
+
+
     public Barbeiro(String nome, Barbearia barbearia) {
         this.nome = nome;
         this.barbearia = barbearia;

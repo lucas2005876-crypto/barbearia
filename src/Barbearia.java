@@ -3,23 +3,22 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Semaphore;
 
 public class Barbearia {
-    // Semáforos para controle de capacidade (O "Guarda" da barbearia) o true permite a justiça FIFO
+
+    // 17 esperando (13 em pé + 4 no sofá)
     private final Semaphore semaforoTotal = new Semaphore(17, true);
     private final Semaphore semaforoSofa = new Semaphore(4, true);
     private final Semaphore semaforoPagamento = new Semaphore(1, true);
-    
+
     private final BlockingQueue<Cliente> filaEmPe = new ArrayBlockingQueue<>(13);
     private final BlockingQueue<Cliente> filaSofa = new ArrayBlockingQueue<>(4);
 
     public static volatile boolean isOpen = true;
-
     public static int clientesAtendidos = 0;
 
     public boolean temClienteNoSofa() {
         return !filaSofa.isEmpty();
     }
 
-    // O cliente chama este método ao chegar
     public void entrar(Cliente cliente) throws InterruptedException {
         if (!isOpen) return;
 
@@ -30,40 +29,51 @@ public class Barbearia {
             return;
         }
 
-        filaEmPe.put(cliente);
         System.out.println(cliente.getNameCliente() + " entrou na barbearia");
 
-        promoverParaSofa(cliente);
-    }
-
-
-
-    private void promoverParaSofa(Cliente cliente) throws InterruptedException {
-        semaforoSofa.acquire();
-        filaEmPe.remove(cliente);
-        filaSofa.put(cliente);
-        System.out.println(cliente.getNameCliente() + " sentou no sofá.");
+        // tenta sentar direto no sofá
+        if (semaforoSofa.tryAcquire()) {
+            filaSofa.put(cliente);
+            System.out.println(cliente.getNameCliente() + " sentou no sofá.");
+        } else {
+            filaEmPe.put(cliente);
+            System.out.println(cliente.getNameCliente() + " está em pé aguardando.");
+        }
     }
 
     public Cliente chamarProximoDoSofa() throws InterruptedException {
-        Cliente proximo = filaSofa.take(); // Bloqueia o barbeiro se o sofá estiver vazio
+
+        Cliente proximo = filaSofa.take();
         System.out.println(proximo.getNameCliente() + " foi chamado para cortar o cabelo");
-        semaforoSofa.release(); // Libera uma vaga no sofá para quem estava em pé
+
+        semaforoSofa.release(); // liberou vaga no sofá
+
+        // promove alguém da fila em pé (FIFO seguro)
+        Cliente clienteEmPe = filaEmPe.poll();
+
+        if (clienteEmPe != null) {
+            semaforoSofa.acquire();
+            filaSofa.put(clienteEmPe);
+            System.out.println(clienteEmPe.getNameCliente() + " saiu da fila e sentou no sofá.");
+        }
+
         return proximo;
     }
 
     public void realizarPagamento(Cliente cliente, Barbeiro barbeiro) throws InterruptedException {
-        // Garante que apenas um barbeiro e seu respectivo cliente paguem por vez
-        semaforoPagamento.acquire();
-        System.out.println(barbeiro.getNameBarbeiro() + " está recebendo de " + cliente.getNameCliente() + ".");
-        Thread.sleep(500); // O tempo que ambos gastam no caixa
-        System.out.println(cliente.getNameCliente() + " pagou e saiu.");
-        semaforoPagamento.release(); // Libera o caixa para o próximo par
-        semaforoTotal.release();     // Libera a vaga na barbearia (o cliente saiu do prédio)
 
-        // logs e contador de clientes
+        semaforoPagamento.acquire();
+
+        System.out.println(barbeiro.getNameBarbeiro() + " está recebendo de " + cliente.getNameCliente() + ".");
+        Thread.sleep(500);
+        System.out.println(cliente.getNameCliente() + " pagou e saiu.");
+
+        semaforoPagamento.release();
+        semaforoTotal.release();
+
         clientesAtendidos++;
         System.out.println("Clientes atendidos: " + clientesAtendidos);
+
         if (clientesAtendidos >= 25) {
             isOpen = false;
         }

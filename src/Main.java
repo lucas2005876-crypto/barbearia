@@ -38,8 +38,9 @@ public class Main {
 
         while(idCLiente < 50){
             int tamanhoCabelo = (int) (Math.random() * 10);
-            numeroNome++;
             Cliente cliente = new Cliente( idCLiente, nomes[numeroNome], tamanhoCabelo, barbearia);
+            numeroNome++;
+
             listaClientes.add(cliente);
 
             idCLiente++;
