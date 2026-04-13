@@ -40,9 +40,13 @@ public class Barbeiro extends Thread {
         while(Barbearia.isOpen || barbearia.temClienteNoSofa()) {
             try {
                 this.clienteAtual = barbearia.chamarProximoDoSofa();
+
+                if (clienteAtual == null) {
+                    continue;
+                }
+
                 cortarCabelo(clienteAtual);
                 barbearia.realizarPagamento(clienteAtual, this);
-
                 Thread.sleep(200); //descansa
             }
             catch (InterruptedException i) {
