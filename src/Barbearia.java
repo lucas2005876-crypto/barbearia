@@ -29,15 +29,15 @@ public class Barbearia {
             return;
         }
 
-        System.out.println(cliente.getNameCliente() + " entrou na barbearia");
+        System.out.println(cliente + " entrou na barbearia");
 
         // tenta sentar direto no sofá
         if (semaforoSofa.tryAcquire()) {
-            filaSofa.put(cliente);
             System.out.println(cliente.getNameCliente() + " sentou no sofá.");
+            filaSofa.put(cliente);
         } else {
-            filaEmPe.put(cliente);
             System.out.println(cliente.getNameCliente() + " está em pé aguardando.");
+            filaEmPe.put(cliente);
         }
     }
 
