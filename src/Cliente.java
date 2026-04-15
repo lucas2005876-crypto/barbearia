@@ -17,6 +17,7 @@ public class Cliente extends Thread {
     }
 
     public int getTamanhoDeCabelo() {
+
         return tamanhoCabelo;
     }
 

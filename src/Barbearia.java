@@ -34,7 +34,6 @@ public class Barbearia {
             return;
         }
 
-        // 🔥 AGORA ESPERA SE ESTIVER CHEIO (EM VEZ DE IR EMBORA)
         while (!capacidade.tryAcquire()) {
             log(cliente + " está aguardando do lado de fora...");
             wait();

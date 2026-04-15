@@ -39,10 +39,10 @@ public class Main {
         while(idCLiente < 50){
             int tamanhoCabelo = (int) (Math.random() * 10);
             Cliente cliente = new Cliente( idCLiente, nomes[numeroNome], tamanhoCabelo, barbearia);
-            numeroNome++;
 
             listaClientes.add(cliente);
 
+            numeroNome++;
             idCLiente++;
         }
 
@@ -52,7 +52,9 @@ public class Main {
 
         for (Cliente c : listaClientes) {
             c.start();
-            Thread.sleep((int)(Math.random() * 200) + 50);        }
+            Thread.sleep((int)(Math.random() * 200) + 50);
+        }
+
         try {
             for (Barbeiro barbeiro : barbeiros) {
                 barbeiro.join();
