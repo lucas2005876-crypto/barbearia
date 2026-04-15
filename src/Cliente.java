@@ -1,43 +1,36 @@
-public class Cliente extends Thread{
+public class Cliente extends Thread {
 
-    private String name;
     private int id;
-    private int tamanhoDeCabelo;
+    private String nome;
+    private int tamanhoCabelo;
     private Barbearia barbearia;
 
-    public Cliente (int id, String name, int tamanhoDeCabelo, Barbearia barbearia) {
+    public Cliente(int id, String nome, int tamanho, Barbearia b) {
         this.id = id;
-        this.name = name;
-        this.tamanhoDeCabelo = tamanhoDeCabelo;
-        this.barbearia = barbearia;
+        this.nome = nome;
+        this.tamanhoCabelo = tamanho;
+        this.barbearia = b;
     }
 
     public String getNameCliente() {
-        return name;
-    }
-
-    public int getIdCliente() {
-        return id;
+        return nome;
     }
 
     public int getTamanhoDeCabelo() {
-        return tamanhoDeCabelo;
+        return tamanhoCabelo;
     }
 
     @Override
     public String toString() {
-        return "Cliente: " + id + " - " + name;
+        return "Cliente: " + id + " - " + nome;
     }
 
+    @Override
     public void run() {
-            try {
-                barbearia.entrar(this);
-            } catch (InterruptedException i) {
-                System.out.println("Interrupted thread " + i.getMessage());
-            }
+        try {
+            barbearia.entrar(this);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
-
-
-
-    
+    }
 }

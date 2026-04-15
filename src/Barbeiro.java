@@ -1,57 +1,48 @@
 public class Barbeiro extends Thread {
+
     private String nome;
-    private Cliente clienteAtual;
     private Barbearia barbearia;
 
-
-
-    public Barbeiro(String nome, Barbearia barbearia) {
+    public Barbeiro(String nome, Barbearia b) {
         this.nome = nome;
-        this.barbearia = barbearia;
+        this.barbearia = b;
     }
 
-    public String getNameBarbeiro() {
+    public String getNome() {
         return nome;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+    public void cortar(Cliente c) throws InterruptedException {
+        int t = c.getTamanhoDeCabelo();
+        int tempo;
 
-    public void cortarCabelo(Cliente c) throws InterruptedException{
-        long tempoDeCorte = 0;
-        int tamanho = c.getTamanhoDeCabelo();
-
-        if(tamanho > 1 && tamanho < 5) {
-            tempoDeCorte = 2000;
-        } else if (tamanho < 8 ){
-            tempoDeCorte = 4000;
+        if (t < 5) {
+            tempo = 600;
+        } else if (t < 8) {
+            tempo = 1200;
         } else {
-            tempoDeCorte = 6000;
+            tempo = 2000;
         }
-
-        System.out.println(nome + " está cortando o cabelo de " + c.getNameCliente());
-        Thread.sleep(tempoDeCorte);
-        System.out.println(nome + " terminou o corte de  " + c.getNameCliente());
+        Barbearia.log("Barbeiro " + nome + " está cortando o cabelo de " + c.getNameCliente());        Thread.sleep(tempo);
+        Barbearia.log(nome + " terminou o corte de" + c.getNameCliente());
     }
 
     @Override
     public void run() {
-        while(Barbearia.isOpen || barbearia.temClienteNoSofa()) {
-            try {
-                this.clienteAtual = barbearia.chamarProximoDoSofa();
+        try {
+            while (Barbearia.isOpen || barbearia.aindaTemClientes()) {
 
-                if (clienteAtual == null) {
-                    continue;
-                }
+                Cliente c = barbearia.chamarProximo();
 
-                cortarCabelo(clienteAtual);
-                barbearia.realizarPagamento(clienteAtual, this);
-                Thread.sleep(200); //descansa
+                if (c == null) continue;
+
+                cortar(c);
+                barbearia.pagar(c, this);
+
+                Thread.sleep(200); // descanso
             }
-            catch (InterruptedException i) {
-                System.out.println("Interrupted thread " + i.getMessage());
-            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }

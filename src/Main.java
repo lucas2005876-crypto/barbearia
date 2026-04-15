@@ -49,8 +49,11 @@ public class Main {
         for (Barbeiro barbeiro : barbeiros) {
             barbeiro.start();
         }
-        listaClientes.forEach(Thread::start);
 
+        for (Cliente c : listaClientes) {
+            c.start();
+            Thread.sleep((int)(Math.random() * 200)); // chegada gradual
+        }
         try {
             for (Barbeiro barbeiro : barbeiros) {
                 barbeiro.join();
