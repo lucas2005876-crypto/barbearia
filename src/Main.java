@@ -1,3 +1,5 @@
+// Para dar início ao programa, basta rodá-lo. 
+
 import java.util.ArrayList;
 
 public class Main {
