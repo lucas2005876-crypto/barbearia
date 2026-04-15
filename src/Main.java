@@ -52,8 +52,7 @@ public class Main {
 
         for (Cliente c : listaClientes) {
             c.start();
-            Thread.sleep((int)(Math.random() * 200)); // chegada gradual
-        }
+            Thread.sleep((int)(Math.random() * 200) + 50);        }
         try {
             for (Barbeiro barbeiro : barbeiros) {
                 barbeiro.join();

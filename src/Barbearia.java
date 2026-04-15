@@ -19,7 +19,7 @@ public class Barbearia {
         System.out.println(msg);
     }
 
-    // 🔥 ENTRADA COM FIFO GLOBAL (SEM THREAD EXTRA)
+    // 🔥 ENTRADA COM FILA EXTERNA (FIFO GLOBAL)
     public synchronized void entrar(Cliente cliente) throws InterruptedException {
 
         filaEntrada.add(cliente);
@@ -34,11 +34,10 @@ public class Barbearia {
             return;
         }
 
-        if (!capacidade.tryAcquire()) {
-            log(cliente + " foi embora (barbearia cheia)");
-            filaEntrada.poll();
-            notifyAll();
-            return;
+        // 🔥 AGORA ESPERA SE ESTIVER CHEIO (EM VEZ DE IR EMBORA)
+        while (!capacidade.tryAcquire()) {
+            log(cliente + " está aguardando do lado de fora...");
+            wait();
         }
 
         log(cliente + " entrou na barbearia");
@@ -51,8 +50,8 @@ public class Barbearia {
             filaEmPe.put(cliente);
         }
 
-        filaEntrada.poll(); // remove da fila
-        notifyAll(); // libera próximo cliente
+        filaEntrada.poll(); // remove da fila de entrada
+        notifyAll(); // libera próximo cliente da fila externa
     }
 
     public Cliente chamarProximo() throws InterruptedException {
@@ -85,6 +84,10 @@ public class Barbearia {
         pagamento.release();
         capacidade.release();
 
+        synchronized (this) {
+            notifyAll();
+        }
+
         clientesAtendidos++;
         log("Clientes atendidos: " + clientesAtendidos);
 
@@ -94,6 +97,6 @@ public class Barbearia {
     }
 
     public boolean aindaTemClientes() {
-        return !filaSofa.isEmpty() || !filaEmPe.isEmpty();
+        return !filaSofa.isEmpty() || !filaEmPe.isEmpty() || !filaEntrada.isEmpty();
     }
 }

@@ -24,7 +24,7 @@ public class Barbeiro extends Thread {
             tempo = 2000;
         }
         Barbearia.log("Barbeiro " + nome + " está cortando o cabelo de " + c.getNameCliente());        Thread.sleep(tempo);
-        Barbearia.log(nome + " terminou o corte de" + c.getNameCliente());
+        Barbearia.log(nome + " terminou o corte de " + c.getNameCliente());
     }
 
     @Override
